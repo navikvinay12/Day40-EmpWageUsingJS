@@ -1,13 +1,17 @@
-//UC3 - Use function to get Work Hrs.
+//UC4  - Calculating emp Wage for max 20 days in a month.
 const Is_FULL_TIME=1;
 const Is_PART_TIME=2;
 const EMP_RATE_PER_HR=20;
+const MAX_WORKING_DAY=20;
 let present=1;
 let empWage=0;
 let empHrs=0;
-let empInput= (Math.floor(Math.random()*10)%3);
+let totalEmpHrs=0;
+let totalWage=0;
+
 function GetWorkingHrs()
 {
+    let empInput= (Math.floor(Math.random()*10)%3);
     switch(empInput)
     {
         case Is_FULL_TIME:
@@ -21,5 +25,10 @@ function GetWorkingHrs()
             return empHrs=0
     }
 }
-empWage=EMP_RATE_PER_HR*GetWorkingHrs();
-console.log("Employee Wage is :"+empWage);
+for(var day=1;day<=MAX_WORKING_DAY;day++)
+{
+    empWage=EMP_RATE_PER_HR*GetWorkingHrs();
+    console.log("Day# : "+day+" EmpWage : "+empWage)
+    totalWage+=empWage
+}
+console.log("Total Employee Wage for 20 days is :"+totalWage);
