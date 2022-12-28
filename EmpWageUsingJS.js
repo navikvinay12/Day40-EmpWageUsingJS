@@ -1,3 +1,4 @@
+//Welcome to Employee Wage Program Using JS.
 //UC1 Emp is present or absent 
 
 let present=1;
