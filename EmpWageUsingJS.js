@@ -1,13 +1,16 @@
-//UC4  - Calculating emp Wage for max 20 days in a month.
+//UC5 Calculating Emp Wage with given Max working hrs and max workng days .
 const Is_FULL_TIME=1;
 const Is_PART_TIME=2;
 const EMP_RATE_PER_HR=20;
 const MAX_WORKING_DAY=20;
+const MAX_WORKING_HRS=160;
+
 let present=1;
 let empWage=0;
 let empHrs=0;
 let totalEmpHrs=0;
 let totalWage=0;
+let day=1;
 
 function GetWorkingHrs()
 {
@@ -25,10 +28,13 @@ function GetWorkingHrs()
             return empHrs=0
     }
 }
-for(var day=1;day<=MAX_WORKING_DAY;day++)
+while(day<=MAX_WORKING_DAY && totalEmpHrs<=MAX_WORKING_HRS)
 {
-    empWage=EMP_RATE_PER_HR*GetWorkingHrs();
+    empHrs=GetWorkingHrs()
+    empWage=EMP_RATE_PER_HR*empHrs;
     console.log("Day# : "+day+" EmpWage : "+empWage)
     totalWage+=empWage
+    totalEmpHrs+=empHrs
+    day++;
 }
-console.log("Total Employee Wage for 20 days is :"+totalWage);
+console.log("Total Employee Wage for "+(day-1)+" days & Emp Hrs "+ (totalEmpHrs-empHrs) +" is :"+(totalWage));
