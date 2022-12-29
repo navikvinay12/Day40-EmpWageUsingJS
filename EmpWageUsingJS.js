@@ -1,13 +1,4 @@
-/*
-UC7
-a)Calc total Wage using Array forEach or reduce method
-b)Show the Day along with Daily Wage using Array map helper function
-c)Show Days when Full Time wage of 160 were earned using filer function
-d)Find the first occurence when full time wage was earned using find function
-e)Check if Every Element of Full Time Wage is truly holding Full time wage
-f)Check if is any Part Time Wage
-g)Find the number of days the Employee Worked.
-*/
+//UC8 Store the Day and the Daily Wage along with the Total Wage .
 
 const Is_FULL_TIME=1;
 const Is_PART_TIME=2;
@@ -22,7 +13,7 @@ let totalEmpHrs=0;
 let totalWage=0;
 let day=1;
 let empWageArray=new Array();       //creating Array
-
+let empDayWithWageUsingMap=new Map();    //UC8 creating Map .
 function GetWorkingHrs()
 {
     let empInput= (Math.floor(Math.random()*10)%3);
@@ -45,6 +36,7 @@ while(day<=MAX_WORKING_DAY && totalEmpHrs<=MAX_WORKING_HRS)
     empWage=EMP_RATE_PER_HR*empHrs;
     console.log("Day# : "+day+" EmpWage : "+empWage)
     empWageArray.push(empWage);     //Store everyday wage in an Array
+    empDayWithWageUsingMap.set(day,empWage);
     totalWage+=empWage
     totalEmpHrs+=empHrs
     day++;
@@ -108,3 +100,7 @@ function NumberOfDays(total,dailyWage)
         return total;
 }
 console.log("UC-7G Number of Working days using reduce helper function :- "+empWageArray.reduce(NumberOfDays,0))
+
+//UC8 Store the Day and the Daily Wage along with the Total Wage .
+console.log(empDayWithWageUsingMap);
+console.log("UC8 Store the Day and the Daily Wage along with the Total Wage :- "+Array.from(empDayWithWageUsingMap.values()).reduce(getTotalWageUsingReduce,0))
