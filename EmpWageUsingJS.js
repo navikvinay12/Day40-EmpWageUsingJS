@@ -1,4 +1,4 @@
-//UC8 Store the Day and the Daily Wage along with the Total Wage .
+//UC8 Store day ,daily wage along with total wage using Map .
 
 const Is_FULL_TIME=1;
 const Is_PART_TIME=2;
@@ -36,7 +36,7 @@ while(day<=MAX_WORKING_DAY && totalEmpHrs<=MAX_WORKING_HRS)
     empWage=EMP_RATE_PER_HR*empHrs;
     console.log("Day# : "+day+" EmpWage : "+empWage)
     empWageArray.push(empWage);     //Store everyday wage in an Array
-    empDayWithWageUsingMap.set(day,empWage);
+    empDayWithWageUsingMap.set(day,empWage);        //UC8 -Storing in Map using set().
     totalWage+=empWage
     totalEmpHrs+=empHrs
     day++;
@@ -102,5 +102,9 @@ function NumberOfDays(total,dailyWage)
 console.log("UC-7G Number of Working days using reduce helper function :- "+empWageArray.reduce(NumberOfDays,0))
 
 //UC8 Store the Day and the Daily Wage along with the Total Wage .
+console.log("UC8 Calculate Total Wage using Map Object :- "+Array.from(empDayWithWageUsingMap.values()).reduce(getTotalWageUsingReduce,0))
+console.log("Day with its Wage using Map :");
 console.log(empDayWithWageUsingMap);
-console.log("UC8 Store the Day and the Daily Wage along with the Total Wage :- "+Array.from(empDayWithWageUsingMap.values()).reduce(getTotalWageUsingReduce,0))
+
+
+
