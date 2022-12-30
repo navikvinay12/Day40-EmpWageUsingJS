@@ -1,4 +1,3 @@
-
 const Is_FULL_TIME=1;
 const Is_PART_TIME=2;
 const EMP_RATE_PER_HR=20;
@@ -14,6 +13,7 @@ let day=1;
 let empWageArray=new Array();       //creating Array
 let empDayWithWageUsingMap=new Map();    //UC8 creating Map .
 let empDayWithHrsUsingMap=new Map();        //UC9 creating Map for finding only hrs.
+let dayAlongWithWageHrsArray=new Array();   //UC10 creating an Array in order to store object this time.
 
 function GetWorkingHrs()
 {
@@ -39,6 +39,17 @@ while(day<=MAX_WORKING_DAY && totalEmpHrs<=MAX_WORKING_HRS)
     empWageArray.push(empWage);     //Store everyday wage in an Array
     empDayWithWageUsingMap.set(day,empWage);        //UC8 -Storing in Map using set().
     empDayWithHrsUsingMap.set(day,empHrs)       //UC9 -Storing in Map but only Hrs w.r.t Day.
+    dayAlongWithWageHrsArray.push(          //UC10 Storing objects in an Array.
+        {
+            dayNumber:day,
+            dailyEmpWage:empWage,
+            dailyHrs:empHrs,
+            toString()
+            {
+                return "\nDay:"+this.dayNumber+"  EmpWage:"+this.dailyEmpWage+"  Hours:"+this.dailyHrs
+            }
+        }
+    );
     totalWage+=empWage
     totalEmpHrs+=empHrs
     day++;
@@ -137,3 +148,6 @@ empDayWithHrsUsingMap.forEach( (value,key,map) =>
 console.log("Absent i.e No Working Days : "+noWorkingDaysArray);
 console.log("Part Time Working Days : "+partWorkingDaysArray);
 console.log("Full Time Working Days : "+fullWorkingDaysArray);
+
+//UC10 
+console.log("UC10 Storing Day along with wage and hrs in a single JS object :"+ dayAlongWithWageHrsArray);
