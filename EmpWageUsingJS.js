@@ -13,7 +13,7 @@ let day=1;
 let empWageArray=new Array();       //creating Array
 let empDayWithWageUsingMap=new Map();    //UC8 creating Map .
 let empDayWithHrsUsingMap=new Map();        //UC9 creating Map for finding only hrs.
-let dayAlongWithWageHrsArray=new Array();   //UC10 creating an Array in order to store object this time.
+let empDailyHrsAndWageArr=[];   //UC10 creating an Array in order to store object this time.
 
 function GetWorkingHrs()
 {
@@ -39,14 +39,14 @@ while(day<=MAX_WORKING_DAY && totalEmpHrs<=MAX_WORKING_HRS)
     empWageArray.push(empWage);     //Store everyday wage in an Array
     empDayWithWageUsingMap.set(day,empWage);        //UC8 -Storing in Map using set().
     empDayWithHrsUsingMap.set(day,empHrs)       //UC9 -Storing in Map but only Hrs w.r.t Day.
-    dayAlongWithWageHrsArray.push(          //UC10 Storing objects in an Array.
+    empDailyHrsAndWageArr.push(          //UC10 Storing objects in an Array.
         {
-            dayNumber:day,
-            dailyEmpWage:empWage,
-            dailyHrs:empHrs,
+            dayNum:day,
+            dailyWage:empWage,
+            dailyHours:empHrs,
             toString()
             {
-                return "\nDay:"+this.dayNumber+"  EmpWage:"+this.dailyEmpWage+"  Hours:"+this.dailyHrs
+                return "\nDay:"+this.dayNum+"  EmpWage:"+this.dailyEmpWage+"  Hours:"+this.dailyHours;
             }
         }
     );
@@ -83,9 +83,9 @@ mapDayAlongWithWage = empWageArray.map(mapDayWithWageFunc)
 console.log("UC-7B Represent day with wage using map helper function:\n"+mapDayAlongWithWage)
 
 //UC7C Show FullTime days.
-function FullTimeDays(data)
+function FullTimeDays(dailyWage)
 {
-    return data.includes("160")
+    return dailyWage.includes("160")
 }
 let fullTimeDays=mapDayAlongWithWage.filter(FullTimeDays)
 console.log("UC-7C Show FullTime Days using filter helper function:\n"+fullTimeDays)
@@ -98,9 +98,9 @@ console.log("UC-7E Check every element is full time or not? using every helper f
 console.log("UC-7E Check every element is full time or not? using every helper function :- "+mapDayAlongWithWage.every(FullTimeDays))    //false
 
 //UC7F Check if any part time wage is present or not?
-function PartTimeDays(data)
+function PartTimeDays(dailyWage)
 {
-    return data.includes("80")
+    return dailyWage.includes("80")
 }
 console.log("UC-7F Check if any part time wage is present or not? using some helper function :- "+mapDayAlongWithWage.some(PartTimeDays))
 
@@ -120,17 +120,18 @@ console.log("Day with its Wage using Map :");
 console.log(empDayWithWageUsingMap);    //day with wage
 
 //UC9 Calculate TotalWage using Array function.
-let totalSalary=Array.from(empDayWithWageUsingMap.values()).filter(dailyWage => dailyWage > 0).reduce(getTotalWageUsingReduce,0);
-console.log("UC-9A Calculate TotalWage using Map/Array and inline Arrow function : "+totalSalary);
+let totalHours=Array.from(empDayWithHrsUsingMap.values()).filter(dailyWage=> dailyWage > 0).reduce(getTotalWageUsingReduce,0);
+console.log("UC-9A Calculate TotalWage using Map/Array and inline Arrow function : "+totalHours);
 
 console.log("Day with its Hrs using Map :");
 console.log(empDayWithHrsUsingMap);     //day with hrs
+
 let findTotalHrs=(totalVal,dailyWage)=>
 {
     return totalVal+dailyWage;
 }
-let totalHours=Array.from(empDayWithHrsUsingMap.values()).reduce(findTotalHrs,0);
-console.log("UC-9A Calculate Total Hours using Map/Array and separate Arrow function : "+totalHours);
+let totalHrs=Array.from(empDayWithHrsUsingMap.values()).reduce(findTotalHrs,0);
+console.log("UC-9A Calculate Total Hours using Map/Array and separate Arrow function : "+totalHrs);
 //+++++
 console.log("UC-9B Show the Full working days, part working days and no working days .")
 let noWorkingDaysArray=new Array();
@@ -150,4 +151,23 @@ console.log("Part Time Working Days : "+partWorkingDaysArray);
 console.log("Full Time Working Days : "+fullWorkingDaysArray);
 
 //UC10 
-console.log("UC10 Storing Day along with wage and hrs in a single JS object :"+ dayAlongWithWageHrsArray);
+console.log("UC10 Storing Day along with wage and hrs in a single JS object :"+ empDailyHrsAndWageArr);
+
+//UC11 -> Perform following Object operations using Arrow Functions.
+//11a. Calc total Wage and total hours worked
+let totalWages=empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyWage > 0).reduce((totalwage,dailyHrsAndWage) => totalwage+=dailyHrsAndWage.dailyWage,0);
+let OverallWorkingHours=empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyWage >0).reduce((totalhrs,dailyHrsAndWage) => totalhrs+=dailyHrsAndWage.dailyHours,0);
+console.log("UC 11A - Overall Total Working Hours :"+OverallWorkingHours+" Overall Total Employee Wage : "+totalWages);
+
+//11b. Show the full workings days using foreach
+let fullTimeWorkingdays=empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 8).map(dailyHrsAndWage => dailyHrsAndWage.dayNum);
+console.log("UC 11B - Full Time Working days are: "+fullTimeWorkingdays);
+
+//11c. Show Part working days using Map by reducing to String Array
+let partTimeWorkingDays=empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 4).map(dailyHrsAndWage => dailyHrsAndWage.dayNum);
+console.log("UC 11C - Part Time Working days are: "+ partTimeWorkingDays);
+
+//11d. No working days only using Map function
+let nonWorkingDays=empDailyHrsAndWageArr.filter(dailyHrsAndWage => dailyHrsAndWage.dailyHours == 0).map(dailyHrsAndWage => dailyHrsAndWage.dayNum);
+console.log("UC 11D - Non working days are :"+nonWorkingDays)
+
