@@ -1,5 +1,6 @@
 //UC11 Ability to create Employee Payrol Data with id,name and salary .
 //UC12 Abiity to extend Employee Payroll Data to store gender and start date.
+//UC13 Use Regex Pattern and Use TryCatch in case of Error.
 class EmployeePayrollData
 {
     //property
@@ -19,30 +20,41 @@ class EmployeePayrollData
     }
 
     //getter and setter method
-    get name()  {return this._name;}
-    set name(name)  {this._name=name;}
+    get name()  { return this._name;}
+    set name(name)
+    {
+        let nameRegex=RegExp("^[A-Z]{1}[a-z]{2,}$");
+        if(nameRegex.test(name))
+        {
+            this._name=name;
+        }
+        else 
+        {
+            throw "Name is Incorrect";
+        }
+    }
 
     //method
     toString()
     {
         const options = { day:'numeric' , month:'long', year: 'numeric'};
-        const empdate=!this.startDate ? "undefinedDate" : 
-        this.startDate.toLocaleDateString("en-US",options);
+        //const empdate=!this.startDate ? "undefinedDate" : this.startDate.toLocaleDateString("en-US",options);
+        const empdate=this.startDate === undefined ? "undefinedDate" : this.startDate.toLocaleDateString("en-US",options);
         return "id="+this.id+", name="+this.name+", salary="+this.salary+", gender="+this.gender+", startDate="+empdate ;
     }
 }
 
-let employeePayrollData=new EmployeePayrollData(1);
+let employeePayrollData=new EmployeePayrollData(1,"Mark",30000);
+console.log(employeePayrollData.toString());
+try
+{
+    employeePayrollData.name="john";
+    console.log(employeePayrollData.toString());
+}
+catch(e)
+{
+    console.error(e);
+}
+employeePayrollData=new EmployeePayrollData(2,"Terrisa",50000,"F", new Date());
 console.log(employeePayrollData.toString());
 
-employeePayrollData=new EmployeePayrollData(1,"Mark",30000);
-console.log(employeePayrollData.toString());
-
-employeePayrollData.name="john";
-employeePayrollData.salary=44333;
-employeePayrollData.gender="M";
-employeePayrollData.startDate;
-console.log(employeePayrollData.toString());
-
-employeePayrollData.startDate=new Date();
-console.log(employeePayrollData.toString());
